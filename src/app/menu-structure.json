@@ -1,0 +1,8 @@
+[
+  { "route": "/", "group": "用户", "order": 1 },
+  { "route": "/levels-screen", "group": "用户", "order": 2 },
+  { "route": "/play-screen", "group": "用户", "order": 3 },
+  { "route": "/result", "group": "用户", "order": 4 },
+  { "route": "/stats", "group": "用户", "order": 5 },
+  { "route": "/poems", "group": "用户", "order": 6 }
+]
