@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
     "build": "bash ./scripts/build.sh",
     "dev": "bash ./scripts/dev.sh",
     "check:external-origin": "node scripts/check-external-origin.mjs",
