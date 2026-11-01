@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "bash ./scripts/build.sh",
-    "dev": "bash ./scripts/dev.sh",
+    "dev": "scripts\\dev.bat",
     "check:external-origin": "node scripts/check-external-origin.mjs",
     "tuya:manifest:check": "node scripts/tuya-manifest-check.mjs",
     "start": "bash ./scripts/start.sh",
