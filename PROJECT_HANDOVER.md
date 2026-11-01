@@ -7,7 +7,7 @@
 **核心功能**：苏尔特方格 × 唐诗三百首专注力训练游戏  
 
 **GitHub 仓库**：https://github.com/TKadi2026/shiyun-fangge  
-**部署平台**：Vercel（正在部署中）  
+**部署平台**：Vercel ✅ 已上线：https://shiyun-fangge.vercel.app  
 **仓库所有者**：TKadi2026
 
 ---
@@ -213,6 +213,13 @@ interface UserProgress {
 - [x] 降低累计时长要求（60分→45分）
 - [x] 新增 2 个特殊成就（初露锋芒、过目不忘）
 
+### 部署与账号（2026-11-01 由 Kimi 完成）
+- [x] Vercel 部署成功：Production Ready，构建约 1 分钟
+- [x] 正式地址：https://shiyun-fangge.vercel.app（实测公开可访问，HTTP 200）
+- [x] Vercel 账号 tkadi2026 已通过 CLI 完成登录（Vercel CLI 65.9.0）
+- [x] 清理部署试错产生的多余项目：shiyun-fangge-g2xy、shiyun-fangge-jyt6
+- [x] GitHub 官方 MCP 已授权连接（账号 TKadi2026）
+
 ---
 
 ## 🚧 当前状态
@@ -221,13 +228,17 @@ interface UserProgress {
 - **状态**：✅ 已推送
 - **地址**：https://github.com/TKadi2026/shiyun-fangge
 - **分支**：main
-- **提交数**：4 个 commit
+- **提交数**：6 个 commit
 
 ### Vercel 部署
-- **状态**：⚠️ 正在部署中
-- **问题**：之前构建失败，已修复 package.json 中的 pnpm 限制
-- **最新提交**：`fix: remove pnpm-only restriction for Vercel deployment`
-- **预期结果**：Vercel 会自动重新部署，应该能成功
+- **状态**：✅ 部署成功（Production：Ready，构建约 1 分钟）
+- **正式地址**：https://shiyun-fangge.vercel.app（实测可公开访问，返回 200）
+- **Vercel 账号**：tkadi2026
+- **说明**：已修复 package.json 中的 pnpm 限制（移除 `preinstall` 的 only-allow），最新提交构建成功；历史上 3 次构建失败均为同一 pnpm 问题，已解决
+
+### 待办
+- [ ] 在真实手机上实测全部游戏流程（重点：方格点击手感、主题切换、成就弹窗）
+- [ ] 删除历史对话中泄露的旧 GitHub Token（https://github.com/settings/tokens）
 
 ---
 
@@ -343,28 +354,12 @@ font-family: 'Comic Sans MS', cursive;
 
 ---
 
-## 🔐 安全提醒
-
-**GitHub Token 已暴露在历史对话中，请立即删除并重新生成。**
-
-**操作步骤**：
-1. 访问 https://github.com/settings/tokens
-2. 找到并删除已暴露的 Token
-3. 重新生成一个新的 Token
-
----
-
 ## 📝 后续工作建议
 
-### 如果 Vercel 部署成功
-- ✅ 测试所有功能是否正常
-- ✅ 分享部署 URL 给用户
-- ✅ 可选：绑定自定义域名
-
-### 如果 Vercel 部署失败
-- 查看 Vercel 构建日志
-- 根据错误信息修复代码
-- 重新推送到 GitHub
+### Vercel 部署（已完成 ✅）
+- ✅ 部署成功，正式地址：https://shiyun-fangge.vercel.app
+- ⬜ 实测所有游戏功能是否正常（重点：手机端体验）
+- ⬜ 可选：绑定自定义域名
 
 ### 功能增强建议
 - 接入数据库（Supabase/Firebase）实现跨设备数据同步
@@ -382,9 +377,10 @@ font-family: 'Comic Sans MS', cursive;
 
 ---
 
-## 📅 文档生成时间
+## 📅 文档更新记录
 
-2026-11-01
+- 2026-11-01 初版（VibeCoder 生成）
+- 2026-11-01 Kimi 更新：标记 Vercel 部署成功、补充正式地址、更新提交数、记录多余项目清理、补充待办事项
 
 ---
 
