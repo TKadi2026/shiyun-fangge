@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { ThemeInit } from '@/components/ThemeInit';
 import { AchievementNotifier } from '@/components/AchievementNotifier';
+import { ClickSound } from '@/components/ClickSound';
 
 export const metadata: Metadata = {
   title: '诗韵方格 — 苏尔特方格 × 唐诗三百首',
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body className="antialiased">
         <ThemeInit />
         <AchievementNotifier />
+        <ClickSound />
         {children}
       </body>
     </html>

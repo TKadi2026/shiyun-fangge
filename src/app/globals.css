@@ -323,14 +323,20 @@ button, [role="button"], .lv-card, .pl-cell, .pm-card, .hm-cta, .hm-tab, .lv-tab
 }
 
 /* ========== 全局按钮点击反馈 ==========
-   用独立的 scale 属性实现按下缩小，不与元素自身的 transform（定位/动画）冲突 */
+   用独立的 scale/filter 属性实现按下反馈，不与元素自身的 transform（定位/动画）冲突 */
+button:not(:disabled),
+[role="button"] {
+  transition: scale 0.1s ease-out, filter 0.1s ease-out, opacity 0.15s ease-out;
+}
+
 button:not(:disabled):active,
 [role="button"]:active {
-  scale: 0.95;
-  transition: scale 0.08s ease-out;
+  scale: 0.92;
+  filter: brightness(0.85);
 }
 
 /* 已有自定义按下态的元素不重复缩放 */
 .ob-btn:active, .pm-card:active, .pm-top-btn:active, .pl-cell:active {
   scale: 1;
+  filter: none;
 }
