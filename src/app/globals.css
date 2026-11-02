@@ -321,3 +321,16 @@ button, [role="button"], .lv-card, .pl-cell, .pm-card, .hm-cta, .hm-tab, .lv-tab
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
+
+/* ========== 全局按钮点击反馈 ==========
+   用独立的 scale 属性实现按下缩小，不与元素自身的 transform（定位/动画）冲突 */
+button:not(:disabled):active,
+[role="button"]:active {
+  scale: 0.95;
+  transition: scale 0.08s ease-out;
+}
+
+/* 已有自定义按下态的元素不重复缩放 */
+.ob-btn:active, .pm-card:active, .pm-top-btn:active, .pl-cell:active {
+  scale: 1;
+}

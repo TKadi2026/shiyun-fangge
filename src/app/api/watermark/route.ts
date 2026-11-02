@@ -7,6 +7,12 @@ function watermarkLink(): string {
 }
 
 export async function GET() {
+  // 项目方要求移除「Built with Tuya AI」角标，始终不展示
+  return Response.json({ show: false, link: watermarkLink() });
+}
+
+// 保留原始上游检查逻辑备查（当前不执行）
+export async function _GET_upstream_check_disabled() {
   const link = watermarkLink();
   const baseUrl = process.env.TUYA_OPEN_API_BASE_URL?.replace(/\/+$/, '');
   const authKey = process.env.TUYA_OPEN_API_AUTH_KEY;
