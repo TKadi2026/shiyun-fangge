@@ -44,7 +44,6 @@ function PlayContent() {
           if (prev <= 100) {
             clearInterval(interval);
             setGameState('playing');
-            start();
             return 0;
           }
           return prev - 100;
@@ -52,13 +51,14 @@ function PlayContent() {
       }, 100);
       return () => clearInterval(interval);
     } else {
+      // 计时不再随页面加载/预览结束自动开始，等玩家点中第一个字才开始
       setGameState('playing');
-      start();
     }
-  }, [level, poem, start]);
+  }, [level, poem]);
 
   const handleCorrect = useCallback(() => {
     if (!poem) return;
+    if (foundCount === 0) start(); // 首次点中才开始计时
     const newCount = foundCount + 1;
     setFoundCount(newCount);
 
@@ -74,7 +74,7 @@ function PlayContent() {
         router.push(`/result?level=${levelId}&time=${timeMs}`);
       }, 800);
     }
-  }, [foundCount, poem, stop, levelId, router]);
+  }, [foundCount, poem, stop, start, levelId, router]);
 
   const handleWrong = useCallback(() => {
     setCombo(0);
@@ -85,9 +85,8 @@ function PlayContent() {
     setCombo(0);
     setShowCombo(false);
     setGameState('playing');
-    reset();
-    start();
-  }, [reset, start]);
+    reset(); // 计时清零，等待第一次点中再开始
+  }, [reset]);
 
   if (!level || !poem) {
     return (
@@ -140,7 +139,7 @@ function PlayContent() {
         .pl-preview-title { font-size: 18px; font-weight: 700; color: var(--color-on-surface); margin-bottom: 12px; }
         .pl-preview-poem { font-size: 18px; line-height: 2; color: var(--color-on-surface); }
         .pl-preview-countdown { margin-top: 16px; font-size: 13px; color: var(--color-on-surface-2); }
-        .pl-combo { position: fixed; top: 60px; left: 50%; transform: translateX(-50%); z-index: 50; pointer-events: none; }
+        .pl-combo { position: fixed; bottom: 56px; left: 50%; transform: translateX(-50%); z-index: 50; pointer-events: none; }
         .pl-combo-inner { display: flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 20px; font-weight: 900; font-size: 18px; color: #fff; animation: combo-pop 0.4s ease-out; }
         .pl-combo-inner.fire { background: linear-gradient(135deg, #FF6B35, #F7C948); box-shadow: 0 4px 20px rgba(255,107,53,0.5); }
         .pl-combo-inner.normal { background: linear-gradient(135deg, var(--color-primary), #F7C948); box-shadow: 0 4px 16px color-mix(in srgb, var(--color-primary) 40%, transparent); }

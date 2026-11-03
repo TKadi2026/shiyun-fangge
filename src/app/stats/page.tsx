@@ -218,7 +218,7 @@ export default function StatsScreen() {
     <div className="pg-root">
       <style dangerouslySetInnerHTML={{__html:`
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        .pg-root { display: flex; flex-direction: column; width: 100%; min-height: 100dvh; background: var(--color-surface-variant); font-family: 'Noto Serif SC', 'Songti SC', 'STSong', serif; }
+        .pg-root { display: flex; flex-direction: column; width: 100%; height: 100dvh; background: var(--color-surface-variant); font-family: 'Noto Serif SC', 'Songti SC', 'STSong', serif; }
         .st-nav { height: 56px; padding: 0 16px; display: flex; align-items: center; gap: 12px; background: var(--color-surface); border-bottom: 1px solid color-mix(in srgb, var(--color-on-surface) 8%, transparent); }
         .st-nav-back { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: var(--color-on-surface); cursor: pointer; }
         .st-nav-title { font-size: 18px; font-weight: 700; color: var(--color-on-surface); letter-spacing: 2px; }
