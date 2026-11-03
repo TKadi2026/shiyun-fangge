@@ -87,7 +87,7 @@ export function RankBoard({ levelId = 0, showTabs = true }: { levelId?: number; 
         {!loading && error && <div className="rb-empty">{error}<br />请稍后重试</div>}
         {!loading && !error && rows.length === 0 && (
           <div className="rb-empty">
-            {tab === 'total' || !showTabs ? '总榜虚位以待' : `第 ${levelId} 关虚位以待`}
+            {tab === 'total' ? '总榜虚位以待' : `第 ${levelId} 关虚位以待`}
             <br />成为第一个上榜的人吧！
           </div>
         )}

@@ -186,6 +186,8 @@ function MeContent() {
   const [historySort, setHistorySort] = useState<'date' | 'time' | 'stars'>('date');
   const [historyPage, setHistoryPage] = useState(0);
   const HISTORY_PAGE_SIZE = 10;
+  const [rankSub, setRankSub] = useState<'world' | 'level'>('world');
+  const [rankLevel, setRankLevel] = useState(1);
 
   useEffect(() => {
     setProgress(loadProgress());
@@ -304,6 +306,11 @@ function MeContent() {
         .me-tabs { display: flex; gap: 8px; }
         .me-tab { flex: 1; padding: 10px 0; text-align: center; border-radius: var(--rounded-md); font-size: 14px; font-weight: 600; color: var(--color-on-surface-2); background: var(--color-surface); border: 1px solid color-mix(in srgb, var(--color-on-surface) 8%, transparent); cursor: pointer; transition: all 0.15s; }
         .me-tab.active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); box-shadow: 0 2px 10px color-mix(in srgb, var(--color-primary) 30%, transparent); }
+        .rk-subtabs { display: flex; gap: 8px; margin-bottom: 12px; }
+        .rk-subtab { flex: 1; padding: 9px 0; text-align: center; border-radius: var(--rounded-md); font-size: 13px; font-weight: 600; color: var(--color-on-surface-2); background: var(--color-surface); border: 1px solid color-mix(in srgb, var(--color-on-surface) 8%, transparent); cursor: pointer; transition: all 0.15s; }
+        .rk-subtab.active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+        .rk-select-wrap { margin-bottom: 10px; }
+        .rk-select { width: 100%; padding: 10px 12px; border-radius: var(--rounded-md); font-size: 14px; font-family: inherit; color: var(--color-on-surface); background: var(--color-surface); border: 1px solid color-mix(in srgb, var(--color-on-surface) 12%, transparent); outline: none; appearance: auto; }
       `}} />
 
       <nav className="st-nav">
@@ -434,15 +441,24 @@ function MeContent() {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path></svg>
             世界排名
           </div>
-          <RankBoard levelId={0} showTabs={false} />
-          <div style={{ textAlign: 'center', marginTop: 10 }}>
-            <span
-              style={{ fontSize: 13, color: 'var(--color-primary)', cursor: 'pointer', textDecoration: 'underline' }}
-              onClick={() => router.push('/rank')}
-            >
-              查看单关排行 →
-            </span>
+          <div className="rk-subtabs">
+            <div className={`rk-subtab ${rankSub === 'world' ? 'active' : ''}`} onClick={() => setRankSub('world')}>世界排名</div>
+            <div className={`rk-subtab ${rankSub === 'level' ? 'active' : ''}`} onClick={() => setRankSub('level')}>单关排行</div>
           </div>
+          {rankSub === 'world' ? (
+            <RankBoard levelId={0} showTabs={false} />
+          ) : (
+            <>
+              <div className="rk-select-wrap">
+                <select className="rk-select" value={rankLevel} onChange={e => setRankLevel(Number(e.target.value))}>
+                  {allLevels.map(l => (
+                    <option key={l.id} value={l.id}>第 {l.id} 关 · {getPoemById(l.poemId)?.title ?? ''}</option>
+                  ))}
+                </select>
+              </div>
+              <RankBoard levelId={rankLevel} showTabs={false} />
+            </>
+          )}
         </div>
         )}
 
