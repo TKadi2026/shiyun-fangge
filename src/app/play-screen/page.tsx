@@ -9,6 +9,7 @@ import { generateGrid, getMemoryPreviewDuration } from '@/lib/game-logic';
 import { SchulteGrid } from '@/components/SchulteGrid';
 import { useTimer, TimerDisplay } from '@/components/Timer';
 import { PoemProgress } from '@/components/PoemProgress';
+import { playCorrect, playWrong, playWin } from '@/lib/sfx';
 
 function PlayContent() {
   const searchParams = useSearchParams();
@@ -23,6 +24,8 @@ function PlayContent() {
   const [combo, setCombo] = useState(0);
   const [showCombo, setShowCombo] = useState(false);
   const comboTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const comboRef = useRef(0);
+  const wrongRef = useRef(0);
 
   const { elapsed, start, stop, reset } = useTimer({});
 
@@ -62,7 +65,9 @@ function PlayContent() {
     const newCount = foundCount + 1;
     setFoundCount(newCount);
 
-    setCombo(prev => prev + 1);
+    comboRef.current += 1;
+    playCorrect(comboRef.current);
+    setCombo(comboRef.current);
     setShowCombo(true);
     if (comboTimerRef.current) clearTimeout(comboTimerRef.current);
     comboTimerRef.current = setTimeout(() => setShowCombo(false), 1200);
@@ -70,18 +75,24 @@ function PlayContent() {
     if (newCount >= poem.charCount) {
       const timeMs = stop();
       setGameState('finished');
+      playWin();
       setTimeout(() => {
-        router.push(`/result?level=${levelId}&time=${timeMs}`);
+        router.push(`/result?level=${levelId}&time=${timeMs}&wrong=${wrongRef.current}`);
       }, 800);
     }
   }, [foundCount, poem, stop, start, levelId, router]);
 
   const handleWrong = useCallback(() => {
+    wrongRef.current += 1;
+    comboRef.current = 0;
+    playWrong();
     setCombo(0);
   }, []);
 
   const handleRestart = useCallback(() => {
     setFoundCount(0);
+    comboRef.current = 0;
+    wrongRef.current = 0;
     setCombo(0);
     setShowCombo(false);
     setGameState('playing');
@@ -173,7 +184,7 @@ function PlayContent() {
           foundCount={foundCount}
         />
 
-        <div className="pl-grid-wrap">
+        <div className="pl-grid-wrap" data-silent>
           <SchulteGrid
             cells={cells}
             gridSize={level.gridSize}

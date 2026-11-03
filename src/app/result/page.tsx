@@ -14,12 +14,43 @@ function ResultContent() {
   const router = useRouter();
   const levelId = Number(searchParams.get('level') || '1');
   const timeMs = Number(searchParams.get('time') || '0');
+  const wrong = Number(searchParams.get('wrong') || '0');
 
   const level = getLevelById(levelId);
   const poem = level ? getPoemById(level.poemId) : undefined;
 
   const [stars, setStars] = useState<1 | 2 | 3>(1);
   const [saved, setSaved] = useState(false);
+  const [playerName, setPlayerName] = useState('');
+  const [submitState, setSubmitState] = useState<'idle' | 'submitting' | 'done' | 'error'>('idle');
+  const [rankInfo, setRankInfo] = useState<{ rank: number; score: number } | null>(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem('fg_rank_name');
+    if (stored) setPlayerName(stored);
+  }, []);
+
+  const accuracy = poem && poem.charCount > 0 ? poem.charCount / (poem.charCount + wrong) : 1;
+
+  const handleSubmit = async () => {
+    const name = playerName.trim();
+    if (!name || submitState === 'submitting' || submitState === 'done') return;
+    setSubmitState('submitting');
+    try {
+      const res = await fetch('/api/rank/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, level: levelId, timeMs, wrong }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || '提交失败');
+      localStorage.setItem('fg_rank_name', name);
+      setRankInfo({ rank: data.rank, score: data.score });
+      setSubmitState('done');
+    } catch {
+      setSubmitState('error');
+    }
+  };
 
   useEffect(() => {
     if (!level) return;
@@ -55,6 +86,7 @@ function ResultContent() {
         .rs-time-box { text-align: center; }
         .rs-time-label { font-size: 12px; color: var(--color-on-surface-2); letter-spacing: 1px; }
         .rs-time-val { font-size: 48px; font-weight: 900; color: var(--color-primary); font-variant-numeric: tabular-nums; margin-top: 4px; }
+        .rs-acc { display: inline-block; margin-top: 8px; padding: 4px 14px; border-radius: 20px; background: color-mix(in srgb, var(--color-primary) 10%, transparent); color: var(--color-primary); font-size: 13px; font-weight: 700; }
         .rs-stars { display: flex; gap: 8px; justify-content: center; }
         .rs-poem-card { width: 100%; max-width: 400px; background: var(--color-surface); border-radius: var(--rounded-lg); padding: 24px 20px; border: 1px solid color-mix(in srgb, var(--color-on-surface) 6%, transparent); }
         .rs-poem-title { font-size: 18px; font-weight: 700; color: var(--color-on-surface); text-align: center; }
@@ -62,6 +94,15 @@ function ResultContent() {
         .rs-poem-text { font-size: 16px; color: var(--color-on-surface); line-height: 2; text-align: center; margin-top: 16px; white-space: pre-line; }
         .rs-poem-trans { font-size: 13px; color: var(--color-on-surface-2); line-height: 1.8; margin-top: 16px; padding-top: 16px; border-top: 1px solid color-mix(in srgb, var(--color-on-surface) 8%, transparent); }
         .rs-actions { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 24px; }
+        .rs-rank-card { width: 100%; max-width: 400px; background: var(--color-surface); border-radius: var(--rounded-lg); padding: 16px; border: 1px solid color-mix(in srgb, var(--color-on-surface) 6%, transparent); display: flex; flex-direction: column; gap: 10px; }
+        .rs-rank-title { font-size: 13px; font-weight: 700; color: var(--color-on-surface); letter-spacing: 1px; }
+        .rs-rank-row { display: flex; gap: 8px; }
+        .rs-name-input { flex: 1; min-width: 0; padding: 12px 14px; border-radius: var(--rounded-md); border: 1.5px solid color-mix(in srgb, var(--color-on-surface) 12%, transparent); background: var(--color-surface-variant); font-size: 15px; font-family: inherit; color: var(--color-on-surface); outline: none; }
+        .rs-name-input:focus { border-color: var(--color-primary); }
+        .rs-submit-btn { padding: 12px 18px; border-radius: var(--rounded-md); border: none; background: var(--color-primary); color: #fff; font-size: 14px; font-weight: 700; cursor: pointer; flex-shrink: 0; }
+        .rs-submit-btn:disabled { opacity: 0.5; }
+        .rs-rank-result { font-size: 14px; color: var(--color-primary); font-weight: 700; text-align: center; }
+        .rs-rank-link { font-size: 13px; color: var(--color-on-surface-2); text-align: center; cursor: pointer; text-decoration: underline; }
         .rs-btn { width: 100%; padding: 16px; border-radius: var(--rounded-lg); font-size: 16px; font-weight: 700; letter-spacing: 2px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
         .rs-btn-primary { background: var(--color-primary); color: #fff; box-shadow: 0 4px 16px color-mix(in srgb, var(--color-primary) 30%, transparent); }
         .rs-btn-secondary { background: var(--color-surface); color: var(--color-on-surface); border: 1.5px solid color-mix(in srgb, var(--color-on-surface) 12%, transparent); }
@@ -80,10 +121,43 @@ function ResultContent() {
         <div className="rs-time-box animate-bounce-in">
           <div className="rs-time-label">完成用时</div>
           <div className="rs-time-val">{formatTime(timeMs)}</div>
+          <div className="rs-acc">正确率 {Math.round(accuracy * 100)}%</div>
         </div>
 
         <div className="rs-stars">
           <StarRating stars={stars} size={36} animated />
+        </div>
+
+        <div className="rs-rank-card animate-slide-up">
+          <div className="rs-rank-title">🏆 上传世界排行</div>
+          {submitState === 'done' && rankInfo ? (
+            <>
+              <div className="rs-rank-result">得分 {rankInfo.score} · 本关第 {rankInfo.rank} 名</div>
+              <div className="rs-rank-link" onClick={() => router.push(`/rank?level=${levelId}`)}>
+                查看世界排行 →
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="rs-rank-row">
+                <input
+                  className="rs-name-input"
+                  placeholder="输入昵称（12 字内）"
+                  maxLength={12}
+                  value={playerName}
+                  onChange={e => setPlayerName(e.target.value)}
+                />
+                <button
+                  className="rs-submit-btn"
+                  disabled={!playerName.trim() || submitState === 'submitting'}
+                  onClick={handleSubmit}
+                >
+                  {submitState === 'submitting' ? '上传中…' : '上传成绩'}
+                </button>
+              </div>
+              {submitState === 'error' && <div className="rs-rank-link">上传失败，请重试</div>}
+            </>
+          )}
         </div>
 
         <div className="rs-poem-card animate-slide-up">
