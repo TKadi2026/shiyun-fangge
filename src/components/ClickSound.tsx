@@ -18,37 +18,24 @@ function getCtx(): AudioContext | null {
   }
 }
 
-/** 短促的“哒”点击音：高频三角波快速衰减 + 一点噪声瞬态 */
+/** 消消乐式「啵」声：柔和正弦泡音，音高随机微浮动，避免机械感 */
 function playClick() {
   const ac = getCtx();
   if (!ac) return;
   const t = ac.currentTime;
 
   const osc = ac.createOscillator();
-  const oscGain = ac.createGain();
-  osc.type = 'triangle';
-  osc.frequency.setValueAtTime(2400, t);
-  osc.frequency.exponentialRampToValueAtTime(1200, t + 0.045);
-  oscGain.gain.setValueAtTime(0.12, t);
-  oscGain.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
-  osc.connect(oscGain).connect(ac.destination);
+  const gain = ac.createGain();
+  osc.type = 'sine';
+  const base = 520 + Math.random() * 140;
+  osc.frequency.setValueAtTime(base, t);
+  osc.frequency.exponentialRampToValueAtTime(base * 0.5, t + 0.08);
+  gain.gain.setValueAtTime(0.0001, t);
+  gain.gain.exponentialRampToValueAtTime(0.2, t + 0.008);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
+  osc.connect(gain).connect(ac.destination);
   osc.start(t);
-  osc.stop(t + 0.07);
-
-  // 瞬态噪声，让声音更“脆”
-  const len = Math.floor(ac.sampleRate * 0.02);
-  const buffer = ac.createBuffer(1, len, ac.sampleRate);
-  const data = buffer.getChannelData(0);
-  for (let i = 0; i < len; i++) {
-    data[i] = (Math.random() * 2 - 1) * (1 - i / len);
-  }
-  const noise = ac.createBufferSource();
-  const noiseGain = ac.createGain();
-  noiseGain.gain.setValueAtTime(0.06, t);
-  noiseGain.gain.exponentialRampToValueAtTime(0.001, t + 0.02);
-  noise.buffer = buffer;
-  noise.connect(noiseGain).connect(ac.destination);
-  noise.start(t);
+  osc.stop(t + 0.12);
 }
 
 const CLICKABLE = 'button, [role="button"], .pl-cell, .lv-card, .pm-card, .hm-cta, .hm-tab, .lv-tab, .st-tab, .pm-tab, .pm-filter, .lv-tier-tab';

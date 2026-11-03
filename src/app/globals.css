@@ -323,16 +323,18 @@ button, [role="button"], .lv-card, .pl-cell, .pm-card, .hm-cta, .hm-tab, .lv-tab
 }
 
 /* ========== 全局按钮点击反馈 ==========
-   用独立的 scale/filter 属性实现按下反馈，不与元素自身的 transform（定位/动画）冲突 */
+   消消乐手感：快速按下缩小变暗，松手带回弹（overshoot 弹簧曲线）
+   用独立的 scale/filter 属性实现，不与元素自身的 transform（定位/动画）冲突 */
 button:not(:disabled),
 [role="button"] {
-  transition: scale 0.1s ease-out, filter 0.1s ease-out, opacity 0.15s ease-out;
+  transition: scale 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.15s ease-out, opacity 0.15s ease-out;
 }
 
 button:not(:disabled):active,
 [role="button"]:active {
-  scale: 0.92;
-  filter: brightness(0.85);
+  scale: 0.9;
+  filter: brightness(0.88);
+  transition-duration: 0.05s; /* 按下要“跟手”，回弹走上面的弹簧曲线 */
 }
 
 /* 已有自定义按下态的元素不重复缩放 */

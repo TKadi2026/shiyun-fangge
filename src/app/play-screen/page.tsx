@@ -139,12 +139,12 @@ function PlayContent() {
         .pl-preview-title { font-size: 18px; font-weight: 700; color: var(--color-on-surface); margin-bottom: 12px; }
         .pl-preview-poem { font-size: 18px; line-height: 2; color: var(--color-on-surface); }
         .pl-preview-countdown { margin-top: 16px; font-size: 13px; color: var(--color-on-surface-2); }
-        .pl-combo { position: fixed; bottom: 56px; left: 50%; transform: translateX(-50%); z-index: 50; pointer-events: none; }
-        .pl-combo-inner { display: flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 20px; font-weight: 900; font-size: 18px; color: #fff; animation: combo-pop 0.4s ease-out; }
+        .pl-combo { flex-shrink: 0; margin-right: 8px; }
+        .pl-combo-inner { display: flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-weight: 900; font-size: 13px; color: #fff; animation: combo-pop 0.4s ease-out; }
         .pl-combo-inner.fire { background: linear-gradient(135deg, #FF6B35, #F7C948); box-shadow: 0 4px 20px rgba(255,107,53,0.5); }
         .pl-combo-inner.normal { background: linear-gradient(135deg, var(--color-primary), #F7C948); box-shadow: 0 4px 16px color-mix(in srgb, var(--color-primary) 40%, transparent); }
-        .pl-combo-num { font-size: 24px; font-variant-numeric: tabular-nums; }
-        .pl-combo-label { font-size: 12px; font-weight: 600; letter-spacing: 1px; opacity: 0.9; }
+        .pl-combo-num { font-size: 16px; font-variant-numeric: tabular-nums; }
+        .pl-combo-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; opacity: 0.9; }
         @keyframes combo-pop { 0% { transform: scale(0.5); opacity: 0; } 50% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 1; } }
       `}} />
 
@@ -153,6 +153,16 @@ function PlayContent() {
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
         </div>
         <span className="pl-nav-title">第 {level.id} 关 · {poem.title}</span>
+        {showCombo && combo >= 2 && (
+          <div className="pl-combo">
+            <div className={`pl-combo-inner ${combo >= 5 ? 'fire' : 'normal'}`}>
+              <span className="pl-combo-num">{combo}</span>
+              <span className="pl-combo-label">
+                {combo >= 10 ? '超神!' : combo >= 5 ? '连击!' : 'COMBO'}
+              </span>
+            </div>
+          </div>
+        )}
         <TimerDisplay elapsed={elapsed} />
       </nav>
 
@@ -182,17 +192,6 @@ function PlayContent() {
           <span className="pl-info-mode">{modeLabels[level.mode]}</span>
         </div>
       </div>
-
-      {showCombo && combo >= 2 && (
-        <div className="pl-combo">
-          <div className={`pl-combo-inner ${combo >= 5 ? 'fire' : 'normal'}`}>
-            <span className="pl-combo-num">{combo}</span>
-            <span className="pl-combo-label">
-              {combo >= 10 ? '超神!' : combo >= 5 ? '连击!' : 'COMBO'}
-            </span>
-          </div>
-        </div>
-      )}
 
       <div className="pl-bottom-bar">
         <div className="pl-bottom-btn" onClick={handleRestart}>
