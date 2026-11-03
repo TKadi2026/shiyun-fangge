@@ -23,7 +23,7 @@ function ResultContent() {
   const [saved, setSaved] = useState(false);
   const [playerName, setPlayerName] = useState('');
   const [submitState, setSubmitState] = useState<'idle' | 'submitting' | 'done' | 'error'>('idle');
-  const [rankInfo, setRankInfo] = useState<{ rank: number; score: number } | null>(null);
+  const [rankInfo, setRankInfo] = useState<{ rank: number; score: number; percentile?: number } | null>(null);
 
   useEffect(() => {
     const stored = localStorage.getItem('fg_rank_name');
@@ -45,7 +45,7 @@ function ResultContent() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || '提交失败');
       localStorage.setItem('fg_rank_name', name);
-      setRankInfo({ rank: data.rank, score: data.score });
+      setRankInfo({ rank: data.rank, score: data.score, percentile: typeof data.percentile === 'number' ? data.percentile : undefined });
       setSubmitState('done');
     } catch {
       setSubmitState('error');
@@ -102,6 +102,8 @@ function ResultContent() {
         .rs-submit-btn { padding: 12px 18px; border-radius: var(--rounded-md); border: none; background: var(--color-primary); color: #fff; font-size: 14px; font-weight: 700; cursor: pointer; flex-shrink: 0; }
         .rs-submit-btn:disabled { opacity: 0.5; }
         .rs-rank-result { font-size: 14px; color: var(--color-primary); font-weight: 700; text-align: center; }
+        .rs-rank-pct { font-size: 13px; color: var(--color-on-surface); text-align: center; background: color-mix(in srgb, var(--color-primary) 10%, transparent); border-radius: var(--rounded-md); padding: 8px 10px; }
+        .rs-rank-pct b { color: var(--color-primary); font-size: 16px; }
         .rs-rank-link { font-size: 13px; color: var(--color-on-surface-2); text-align: center; cursor: pointer; text-decoration: underline; }
         .rs-btn { width: 100%; padding: 16px; border-radius: var(--rounded-lg); font-size: 16px; font-weight: 700; letter-spacing: 2px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
         .rs-btn-primary { background: var(--color-primary); color: #fff; box-shadow: 0 4px 16px color-mix(in srgb, var(--color-primary) 30%, transparent); }
@@ -133,6 +135,9 @@ function ResultContent() {
           {submitState === 'done' && rankInfo ? (
             <>
               <div className="rs-rank-result">得分 {rankInfo.score} · 本关第 {rankInfo.rank} 名</div>
+              {rankInfo.percentile != null && (
+                <div className="rs-rank-pct">🌍 你超过了全球 <b>{rankInfo.percentile}%</b> 的玩家</div>
+              )}
               <div className="rs-rank-link" onClick={() => router.push(`/rank?level=${levelId}`)}>
                 查看世界排行 →
               </div>
