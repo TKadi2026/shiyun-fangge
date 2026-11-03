@@ -146,46 +146,115 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
 
-/* ========== 卡通趣味 ========== */
+/* ========== 方块世界（我的世界风） ========== */
 [data-theme="cartoon"] {
-  --radius: 1.25rem;
-  --background: #FFF8E1;
-  --foreground: #333333;
-  --card: #FFFFFF;
-  --card-foreground: #333333;
-  --popover: #FFFFFF;
-  --popover-foreground: #333333;
-  --primary: #FF6B6B;
+  --radius: 0.25rem;
+  --background: #E4F0D2;
+  --foreground: #2F2F2F;
+  --card: #FAF7EF;
+  --card-foreground: #2F2F2F;
+  --popover: #FAF7EF;
+  --popover-foreground: #2F2F2F;
+  --primary: #5B9E34;
   --primary-foreground: #FFFFFF;
-  --secondary: #4ECDC4;
+  --secondary: #8B5E3C;
   --secondary-foreground: #FFFFFF;
-  --muted: #FFF3CD;
-  --muted-foreground: #888888;
-  --accent: #FFE66D;
-  --accent-foreground: #333333;
-  --border: #FFE0B2;
-  --input: #FFE0B2;
-  --ring: #FF6B6B;
-  --sidebar: #FFFFFF;
-  --sidebar-foreground: #333333;
-  --sidebar-primary: #FF6B6B;
+  --muted: #CFE0B0;
+  --muted-foreground: #5C6B45;
+  --accent: #F7D54D;
+  --accent-foreground: #3A2E00;
+  --destructive: #C0392B;
+  --border: #2E2E2E;
+  --input: #9AA78A;
+  --ring: #6FBB3F;
+  --chart-1: #6ABE30;
+  --chart-2: #4ECDC4;
+  --chart-3: #F7D54D;
+  --chart-4: #8B5E3C;
+  --chart-5: #C0392B;
+  --sidebar: #FAF7EF;
+  --sidebar-foreground: #2F2F2F;
+  --sidebar-primary: #5B9E34;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #FFF3CD;
-  --sidebar-accent-foreground: #333333;
-  --sidebar-border: #FFE0B2;
-  --sidebar-ring: #FF6B6B;
+  --sidebar-accent: #CFE0B0;
+  --sidebar-accent-foreground: #2F2F2F;
+  --sidebar-border: #2E2E2E;
+  --sidebar-ring: #6FBB3F;
 
-  --color-surface-variant: #FFF8E1;
-  --color-surface: #FFFFFF;
-  --color-on-surface: #333333;
-  --color-on-surface-2: #888888;
-  --color-primary: #FF6B6B;
-  --color-success: #4ECDC4;
-  --rounded-sm: 12px;
-  --rounded-md: 18px;
-  --rounded-lg: 24px;
+  --color-surface-variant: #E4F0D2;
+  --color-surface: #FAF7EF;
+  --color-on-surface: #2F2F2F;
+  --color-on-surface-2: #5C6B45;
+  --color-primary: #5B9E34;
+  --color-success: #6ABE30;
+  --rounded-sm: 0px;
+  --rounded-md: 2px;
+  --rounded-lg: 4px;
 
-  font-family: 'Comic Sans MS', 'PingFang SC', 'Hiragino Sans GB', cursive, sans-serif;
+  font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+
+/* 像素网格底纹，像 MC 草地 */
+[data-theme="cartoon"] body {
+  background-image:
+    linear-gradient(rgba(106, 190, 48, 0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(106, 190, 48, 0.10) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* 顶栏 / 底部菜单栏 = 草方块条 */
+[data-theme="cartoon"] :is(.pl-nav, .lv-nav, .pm-nav, .st-nav, .hm-nav, .lv-tab-bar, .pm-tab-bar, .st-tab-bar, .hm-tab-bar) {
+  background-color: #67AF3E;
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 45%, rgba(0,0,0,0.14) 100%);
+  border-top: 3px solid #2E2E2E;
+  border-bottom: 3px solid #2E2E2E;
+  color: #FFFFFF;
+}
+[data-theme="cartoon"] :is(.pl-nav-title, .pl-nav-back, .lv-nav-title, .lv-nav-back, .pm-nav-title, .pm-nav-back, .st-nav-title, .st-nav-back, .hm-nav-title, .hm-nav-icon) {
+  color: #FFFFFF;
+  font-weight: 800;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
+}
+[data-theme="cartoon"] .pl-timer {
+  color: #FFF6A3;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
+}
+[data-theme="cartoon"] :is(.lv-tab-bar, .pm-tab-bar, .st-tab-bar, .hm-tab-bar) * {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+/* 卡片 / 面板 = 石英块：深色描边 + 方块倒角 */
+[data-theme="cartoon"] :is(.lv-card, .pm-card, .st-section, .hm-daily, .pl-info, .pl-progress, .pl-preview-box, .lv-tier-tabs, .hm-panel) {
+  border: 3px solid #2E2E2E;
+  border-radius: 0;
+  box-shadow: inset 3px 3px 0 rgba(255, 255, 255, 0.4), inset -3px -3px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* 游戏格子 = 小方块 */
+[data-theme="cartoon"] .pl-cell {
+  border: 3px solid #2E2E2E;
+  border-radius: 0;
+  box-shadow: inset 3px 3px 0 rgba(255, 255, 255, 0.3), inset -3px -3px 0 rgba(0, 0, 0, 0.2);
+  font-weight: 800;
+}
+
+/* 按钮 = MC 风格方块按钮 */
+[data-theme="cartoon"] button,
+[data-theme="cartoon"] [role="button"],
+[data-theme="cartoon"] .pm-filter,
+[data-theme="cartoon"] .lv-tier-tab,
+[data-theme="cartoon"] .pl-bottom-btn {
+  border-radius: 0;
+  font-weight: 700;
+}
+[data-theme="cartoon"] :is(button, [role="button"]):not([data-no-block]) {
+  border: 3px solid #2E2E2E;
+  box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.35), inset -2px -2px 0 rgba(0, 0, 0, 0.25);
+}
+[data-theme="cartoon"] button:not(:disabled):active,
+[data-theme="cartoon"] [role="button"]:active {
+  box-shadow: inset -2px -2px 0 rgba(255, 255, 255, 0.2), inset 2px 2px 0 rgba(0, 0, 0, 0.3);
 }
 
 .dark {

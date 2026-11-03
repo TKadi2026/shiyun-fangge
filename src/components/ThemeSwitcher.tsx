@@ -8,7 +8,7 @@ import { saveTheme } from '@/lib/storage';
 const themePreviews: { key: ThemeName; label: string; desc: string }[] = [
   { key: 'ink', label: '水墨', desc: '古风雅韵' },
   { key: 'modern', label: '简约', desc: '现代清新' },
-  { key: 'cartoon', label: '卡通', desc: '趣味活泼' },
+  { key: 'cartoon', label: '方块', desc: '我的世界' },
 ];
 
 function InkPreview() {
@@ -77,39 +77,39 @@ function ModernPreview() {
 function CartoonPreview() {
   return (
     <svg width="100%" height="100%" viewBox="0 0 56 40" fill="none">
-      {/* 暖黄底 */}
-      <rect width="56" height="40" rx="6" fill="#FFF8E1" />
-      {/* 彩色波点背景 */}
-      <circle cx="8" cy="6" r="3" fill="#FF6B6B" opacity="0.12" />
-      <circle cx="20" cy="4" r="2" fill="#4ECDC4" opacity="0.15" />
-      <circle cx="44" cy="5" r="2.5" fill="#FFE66D" opacity="0.2" />
-      <circle cx="50" cy="12" r="2" fill="#FF6B6B" opacity="0.1" />
-      <circle cx="6" cy="34" r="2" fill="#4ECDC4" opacity="0.12" />
-      <circle cx="48" cy="36" r="3" fill="#FFE66D" opacity="0.15" />
-      {/* 可爱笑脸 */}
-      <circle cx="14" cy="14" r="8" fill="#FF6B6B" opacity="0.85" />
-      <circle cx="11.5" cy="12.5" r="2" fill="#fff" />
-      <circle cx="16.5" cy="12.5" r="2" fill="#fff" />
-      <circle cx="11.5" cy="12.5" r="1" fill="#333" />
-      <circle cx="16.5" cy="12.5" r="1" fill="#333" />
-      <path d="M10 16 Q14 20 18 16" stroke="#fff" strokeWidth="1.2" fill="none" strokeLinecap="round" />
-      {/* 腮红 */}
-      <circle cx="8" cy="15" r="1.5" fill="#FF9999" opacity="0.5" />
-      <circle cx="20" cy="15" r="1.5" fill="#FF9999" opacity="0.5" />
-      {/* 星星 */}
-      <polygon points="36,6 37.5,10 42,10 38.5,13 39.5,17 36,14.5 32.5,17 33.5,13 30,10 34.5,10" fill="#FFE66D" />
-      {/* 云朵 */}
-      <ellipse cx="44" cy="22" rx="8" ry="5" fill="#4ECDC4" opacity="0.3" />
-      <ellipse cx="40" cy="22" rx="5" ry="4" fill="#4ECDC4" opacity="0.4" />
-      <ellipse cx="48" cy="22" rx="5" ry="4" fill="#4ECDC4" opacity="0.4" />
-      {/* 彩色方块按钮 */}
-      <rect x="4" y="26" width="10" height="10" rx="4" fill="#FF6B6B" opacity="0.7" />
-      <rect x="16" y="28" width="8" height="8" rx="3" fill="#4ECDC4" opacity="0.7" />
-      <rect x="26" y="26" width="10" height="10" rx="4" fill="#FFE66D" opacity="0.8" />
-      <rect x="38" y="28" width="8" height="8" rx="3" fill="#FF6B6B" opacity="0.5" />
-      {/* 小装饰 */}
-      <text x="9" y="33" textAnchor="middle" fill="#fff" fontSize="5" fontWeight="bold">A</text>
-      <text x="31" y="33" textAnchor="middle" fill="#333" fontSize="5" fontWeight="bold">B</text>
+      {/* 像素天空 */}
+      <rect width="56" height="40" fill="#BFE3FF" />
+      {/* 方块太阳 */}
+      <rect x="45" y="3" width="7" height="7" fill="#FCEE4B" />
+      <rect x="47" y="5" width="3" height="3" fill="#FFF9C4" />
+      {/* 云（方块拼的） */}
+      <rect x="6" y="5" width="10" height="3" fill="#FFFFFF" opacity="0.9" />
+      <rect x="9" y="3" width="7" height="3" fill="#FFFFFF" opacity="0.9" />
+      <rect x="30" y="8" width="8" height="3" fill="#FFFFFF" opacity="0.8" />
+      {/* 草地块（带倒角的高亮） */}
+      <rect x="10" y="17" width="12" height="12" fill="#8B5E3C" />
+      <rect x="10" y="17" width="12" height="3" fill="#6ABE30" />
+      <rect x="10" y="17" width="12" height="1" fill="#8CD44F" />
+      <rect x="10" y="20" width="2" height="9" fill="#A07148" />
+      <rect x="20" y="20" width="2" height="9" fill="#6E4527" />
+      {/* 圆石 */}
+      <rect x="26" y="21" width="9" height="8" fill="#8F8F8F" />
+      <rect x="26" y="21" width="9" height="1.5" fill="#B5B5B5" />
+      <rect x="26" y="27.5" width="9" height="1.5" fill="#6B6B6B" />
+      <rect x="28" y="23" width="2" height="2" fill="#767676" />
+      {/* 金锭块 */}
+      <rect x="38" y="22" width="8" height="7" fill="#F7D54D" />
+      <rect x="38" y="22" width="8" height="1.5" fill="#FCEE8A" />
+      <rect x="38" y="27.5" width="8" height="1.5" fill="#C9A227" />
+      {/* 地面：草地 + 泥土 */}
+      <rect x="0" y="30" width="56" height="4" fill="#6ABE30" />
+      <rect x="0" y="30" width="56" height="1" fill="#8CD44F" />
+      <rect x="0" y="34" width="56" height="6" fill="#8B5E3C" />
+      <rect x="4" y="35" width="3" height="2" fill="#6E4527" />
+      <rect x="14" y="36" width="3" height="2" fill="#6E4527" />
+      <rect x="26" y="35" width="3" height="2" fill="#6E4527" />
+      <rect x="38" y="36" width="3" height="2" fill="#6E4527" />
+      <rect x="48" y="35" width="3" height="2" fill="#6E4527" />
     </svg>
   );
 }
@@ -158,7 +158,7 @@ export function ThemeSwitcher() {
               style={{
                 width: 48,
                 height: 34,
-                borderRadius: t.key === 'cartoon' ? 10 : t.key === 'modern' ? 6 : 4,
+                borderRadius: t.key === 'cartoon' ? 2 : t.key === 'modern' ? 6 : 4,
                 border: isActive ? '2.5px solid var(--color-primary)' : '1.5px solid color-mix(in srgb, var(--color-on-surface) 15%, transparent)',
                 overflow: 'hidden',
                 transition: 'all 0.3s ease',
