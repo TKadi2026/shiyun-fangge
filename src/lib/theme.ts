@@ -22,5 +22,5 @@ export function getStoredTheme(): ThemeName {
 export const themeLabels: Record<ThemeName, string> = {
   ink: '水墨古风',
   modern: '现代简约',
-  cartoon: '卡通趣味',
+  cartoon: '方块世界',
 };
